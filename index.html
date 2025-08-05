@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人Y2K多巴胺风格网站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+            background-size: 400% 400%;
+            animation: gradient 3s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #fff;
+            text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff; }
+            to { text-shadow: 0 0 30px #ff00ff, 0 0 60px #00ffff, 0 0 80px #ffff00; }
+        }
+
+        .admin-panel {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid #fff;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+        .upload-section {
+            display: none;
+        }
+
+        .upload-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px #000;
+        }
+
+        input[type="text"], input[type="file"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ff00ff;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            color: #fff;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: transform 0.3s;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.8);
+        }
+
+        .login-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .posts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .post {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid #fff;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .post img, .post video {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 2px solid #ff00ff;
+        }
+
+        .comments-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #fff;
+        }
+
+        .comment {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .comment-author {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .comment-form {
+            margin-top: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            margin: 10% auto;
+            padding: 40px;
+            border-radius: 30px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            animation: modalOpen 0.5s;
+        }
+
+        @keyframes modalOpen {
+            from { transform: scale(0.5) rotate(180deg); }
+            to { transform: scale(1) rotate(0deg); }
+        }
+
+        .close {
+            color: #fff;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            transform: rotate(90deg);
+            transition: transform 0.3s;
+        }
+
+        .edit-mode-btn {
+            background: #ffff00;
+            color: #000;
+            margin-left: 10px;
+        }
+
+        .edit-mode-btn.active {
+            background: #ff00ff;
+            color: #fff;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2em; }
+            .posts-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 contenteditable="true" id="siteTitle">我的Y2K多巴胺世界</h1>
+            <button class="login-btn" onclick="toggleLogin()">登录</button>
+        </header>
+
+        <div class="admin-panel" id="adminPanel" style="display: none;">
+            <h2 style="color: #fff; margin-bottom: 20px;">管理面板</h2>
+            <button onclick="toggleUpload()">上传新内容</button>
+            <button class="edit-mode-btn" onclick="toggleEditMode()">编辑模式</button>
+            
+            <div class="upload-section" id="uploadSection">
+                <div class="form-group">
+                    <label>标题</label>
+                    <input type="text" id="postTitle" placeholder="输入标题">
+                </div>
+                <div class="form-group">
+                    <label>内容</label>
+                    <textarea id="postContent" placeholder="输入内容"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>图片/视频</label>
+                    <input type="file" id="postFile" accept="image/*,video/*">
+                </div>
+                <button onclick="createPost()">发布</button>
+            </div>
+        </div>
+
+        <div class="posts-container" id="postsContainer">
+            <!-- 示例帖子 -->
+            <div class="post">
+                <div class="post-author">
+                    <img class="author-avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23ff00ff'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='white' font-size='40'%3E我%3C/text%3E%3C/svg%3E" alt="头像">
+                    <span style="color: #fff;">站长</span>
+                </div>
+                <h3 style="color: #ffff00; margin-bottom: 10px;">欢迎来到我的多巴胺世界！</h3>
+                <p style="color: #fff;">这是一个充满Y2K风格的个人网站，在这里分享我的日常和创意！</p>
+                <div class="comments-section">
+                    <div class="comment">
+                        <div class="comment-author">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%2300ffff'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='white' font-size='40'%3E访%3C/text%3E%3C/svg%3E" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
+                            <span style="color: #00ffff;">访客小明</span>
+                        </div>
+                        <p style="color: #fff; font-size: 0.9em;">太酷了！这个网站风格简直绝了！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 登录模态框 -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 style="color: #fff; margin-bottom: 20px;">登录/注册</h2>
+            <div class="form-group">
+                <input type="text" id="username" placeholder="用户名">
+            </div>
+            <div class="form-group">
+                <input type="text" id="password" placeholder="密码" type="password">
+            </div>
+            <button onclick="login()">登录</button>
+            <button onclick="register()">注册</button>
+        </div>
+    </div>
+
+    <script>
+        let isLoggedIn = false;
+        let isEditMode = false;
+        let posts = [];
+
+        // 本地存储键名
+        const STORAGE_KEY = 'y2k_blog_data';
+
+        // 加载保存的数据
+        function loadData() {
+            const savedData = localStorage.getItem(STORAGE_KEY);
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                posts = data.posts || [];
+                document.getElementById('siteTitle').textContent = data.title || '我的Y2K多巴胺世界';
+                renderPosts();
+            }
+        }
+
+        // 保存数据到本地存储
+        function saveData() {
+            const data = {
+                title: document.getElementById('siteTitle').textContent,
+                posts: posts
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        // 渲染所有帖子
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = '';
+            
+            posts.forEach((post, index) => {
+                const postDiv = document.createElement('div');
+                postDiv.className = 'post';
+                postDiv.innerHTML = `
+                    <div class="post-author">
+                        <img class="author-avatar" src="${post.authorAvatar || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23ff00ff\'/%3E%3Ctext x=\'50\' y=\'55\' text-anchor=\'middle\' fill=\'white\' font-size=\'40\'%3E我%3C/text%3E%3C/svg%3E'}" alt="头像">
+                        <span style="color: #fff;">${post.author || '站长'}</span>
+                    </div>
+                    <h3 style="color: #ffff00; margin-bottom: 10px;" ${isEditMode ? 'contenteditable="true"' : ''} onblur="updatePost(${index}, 'title', this.textContent)">${post.title}</h3>
+                    <p style="color: #fff;" ${isEditMode ? 'contenteditable="true"' : ''} onblur="updatePost(${index}, 'content', this.textContent)">${post.content}</p>
+                    ${post.media ? `<${post.mediaType === 'video' ? 'video controls' : 'img'} src="${post.media}" style="width: 100%; border-radius: 10px; margin: 10px 0;">` : ''}
+                    ${isEditMode ? '<button onclick="deletePost(' + index + ')" style="background: #ff0000; margin-top: 10px;">删除</button>' : ''}
+                    <div class="comments-section">
+                        <h4 style="color: #00ffff; margin-bottom: 10px;">评论</h4>
+                        ${renderComments(post.comments || [])}
+                        <div class="comment-form">
+                            <input type="text" placeholder="你的名字" id="commentName-${index}" style="margin-bottom: 5px;">
+                            <input type="text" placeholder="评论内容" id="commentText-${index}" style="margin-bottom: 5px;">
+                            <button onclick="addComment(${index})">发表评论</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(postDiv);
+            });
+        }
+
+        // 渲染评论
+        function renderComments(comments) {
+            return comments.map(comment => `
+                <div class="comment">
+                    <div class="comment-author">
+                        <img src="${comment.avatar || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%2300ffff\'/%3E%3Ctext x=\'50\' y=\'55\' text-anchor=\'middle\' fill=\'white\' font-size=\'40\'%3E访%3C/text%3E%3C/svg%3E'}" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
+                        <span style="color: #00ffff;">${comment.name}</span>
+                    </div>
+                    <p style="color: #fff; font-size: 0.9em;">${comment.text}</p>
+                </div>
+            `).join('');
+        }
+
+        // 创建新帖子
+        function createPost() {
+            const title = document.getElementById('postTitle').value;
+            const content = document.getElementById('postContent').value;
+            const fileInput = document.getElementById('postFile');
+            
+            if (!title || !content) {
+                alert('请填写标题和内容！');
+                return;
+            }
+
+            const post = {
+                title: title,
+                content: content,
+                author: '站长',
+                authorAvatar: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23ff00ff\'/%3E%3Ctext x=\'50\' y=\'55\' text-anchor=\'middle\' fill=\'white\' font-size=\'40\'%3E我%3C/text%3E%3C/svg%3E',
+                comments: []
+            };
+
+            // 处理文件上传
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    post.media = e.target.result;
+                    post.mediaType = file.type.startsWith('video') ? 'video' : 'image';
+                    posts.unshift(post);
+                    renderPosts();
+                    saveData();
+                    document.getElementById('postTitle').value = '';
+                    document.getElementById('postContent').value = '';
+                    document.getElementById('postFile').value = '';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                posts.unshift(post);
+                renderPosts();
+                saveData();
+                document.getElementById('postTitle').value = '';
+                document.getElementById('postContent').value = '';
+            }
+        }
+
+        // 更新帖子
+        function updatePost(index, field, value) {
+            posts[index][field] = value;
+            saveData();
+        }
+
+        // 删除帖子
+        function deletePost(index) {
+            if (confirm('确定要删除这个帖子吗？')) {
+                posts.splice(index, 1);
+                renderPosts();
+                saveData();
+            }
+        }
+
+        // 添加评论
+        function addComment(postIndex) {
+            const name = document.getElementById(`commentName-${postIndex}`).value;
+            const text = document.getElementById(`commentText-${postIndex}`).value;
+            
+            if (!name || !text) {
+                alert('请填写名字和评论内容！');
+                return;
+            }
+
+            const comment = {
+                name: name,
+                text: text,
+                avatar: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%2300ffff'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='white' font-size='40'%3E${name.charAt(0).toUpperCase()}%3C/text%3E%3C/svg%3E`
+            };
+
+            if (!posts[postIndex].comments) {
+                posts[postIndex].comments = [];
+            }
+            posts[postIndex].comments.push(comment);
+            renderPosts();
+            saveData();
+            
+            document.getElementById(`commentName-${postIndex}`).value = '';
+            document.getElementById(`commentText-${postIndex}`).value = '';
+        }
+
+        // 切换上传面板
+        function toggleUpload() {
+            const section = document.getElementById('uploadSection');
+            section.classList.toggle('active');
+        }
+
+        // 切换编辑模式
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            const btn = event.target;
+            btn.classList.toggle('active');
+            btn.textContent = isEditMode ? '退出编辑' : '编辑模式';
+            renderPosts();
+        }
+
+        // 登录相关
+        function toggleLogin() {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // 简单的本地验证
+            const users = JSON.parse(localStorage.getItem('y2k_users') || '{}');
+            if (users[username] === password) {
+                isLoggedIn = true;
+                document.getElementById('adminPanel').style.display = 'block';
+                closeModal();
+                alert('登录成功！');
+            } else {
+                alert('用户名或密码错误！');
+            }
+        }
+
+        function register() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                alert('请填写用户名和密码！');
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('y2k_users') || '{}');
+            if (users[username]) {
+                alert('用户名已存在！');
+                return;
+            }
+            
+            users[username] = password;
+            localStorage.setItem('y2k_users', JSON.stringify(users));
+            alert('注册成功！请登录。');
+        }
+
+        // 保存网站标题变化
+        document.getElementById('siteTitle').addEventListener('blur', function() {
+            saveData();
+        });
+
+        // 页面加载时初始化
+        window.onload = function() {
+            loadData();
+            // 检查是否已登录（开发时可以设置为true来跳过登录）
+            if (localStorage.getItem('y2k_logged_in') === 'true') {
+                isLoggedIn = true;
+                document.getElementById('adminPanel').style.display = 'block';
+            }
+        };
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
