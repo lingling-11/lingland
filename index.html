@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人Y2K多巴胺风格网站</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MAGAZINE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --pure-white: #ffffff;
+            --light-gray: #f4f4f4;
+            --mid-gray: #a0a0a0;
+            --dark-gray: #333333;
+            --charcoal: #121212;
+            --accent: #c9a876; /* muted gold */
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,300 +22,319 @@
         }
 
         body {
-            font-family: 'Comic Sans MS', cursive;
-            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
-            background-size: 400% 400%;
-            animation: gradient 3s ease infinite;
-            min-height: 100vh;
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            color: var(--charcoal);
+            background: var(--pure-white);
+            line-height: 1.6;
+            letter-spacing: 0.4px;
         }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        header {
+            padding: 48px 24px;
+            text-align: center;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--charcoal);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 24px;
+            font-size: 0.875rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        nav a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            transition: color .3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .login-btn {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: 1px solid var(--charcoal);
+            padding: 8px 16px;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background .3s, color .3s;
+            z-index: 1000;
+        }
+
+        .login-btn:hover {
+            background: var(--charcoal);
+            color: var(--pure-white);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 24px;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        h1 {
-            font-size: 3em;
-            color: #fff;
-            text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff; }
-            to { text-shadow: 0 0 30px #ff00ff, 0 0 60px #00ffff, 0 0 80px #ffff00; }
-        }
-
+        /* Admin Panel */
         .admin-panel {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid #fff;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            display: none;
+            margin: 48px 0;
+            padding: 32px;
+            background: var(--light-gray);
+        }
+
+        .admin-panel h2 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 24px;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+
+        .admin-panel button {
+            margin-right: 12px;
+            padding: 8px 16px;
+            border: 1px solid var(--charcoal);
+            background: var(--pure-white);
+            cursor: pointer;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            transition: background .3s, color .3s;
+        }
+
+        .admin-panel button:hover {
+            background: var(--charcoal);
+            color: var(--pure-white);
         }
 
         .upload-section {
             display: none;
+            margin-top: 24px;
         }
 
-        .upload-section.active {
-            display: block;
-        }
+        .upload-section.active { display: block; }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
         label {
             display: block;
-            color: #fff;
-            font-weight: bold;
-            margin-bottom: 5px;
-            text-shadow: 0 0 10px #000;
+            font-size: 0.75rem;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         input[type="text"], input[type="file"], textarea {
             width: 100%;
-            padding: 10px;
-            border: 2px solid #ff00ff;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.8);
-            color: #000;
+            padding: 8px 12px;
+            border: 1px solid var(--mid-gray);
             font-family: inherit;
+            font-size: 0.875rem;
+            background: var(--pure-white);
         }
 
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
+        textarea { min-height: 100px; resize: vertical; }
 
-        button {
-            background: linear-gradient(45deg, #ff00ff, #00ffff);
-            color: #fff;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 50px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: transform 0.3s;
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-        }
-
-        button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.8);
-        }
-
-        .login-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-
+        /* Grid */
         .posts-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin: 80px 0;
+        }
+
+        @media (max-width: 900px) {
+            .posts-container { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .posts-container { grid-template-columns: 1fr; }
         }
 
         .post {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid #fff;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .post img, .post video {
             width: 100%;
-            border-radius: 10px;
-            margin-bottom: 10px;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            background: var(--light-gray);
         }
 
         .post-author {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--mid-gray);
         }
 
-        .author-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-            border: 2px solid #ff00ff;
+        .post h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+
+        .post p {
+            font-size: 0.875rem;
+            color: var(--dark-gray);
         }
 
         .comments-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px dashed #fff;
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid var(--light-gray);
         }
 
         .comment {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            font-size: 0.875rem;
         }
 
         .comment-author {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
+            font-size: 0.75rem;
+            color: var(--mid-gray);
+            margin-bottom: 4px;
         }
 
-        .comment-form {
-            margin-top: 20px;
+        .comment-form input {
+            width: 100%;
+            margin-bottom: 8px;
         }
 
+        .comment-form button {
+            padding: 6px 12px;
+            border: 1px solid var(--charcoal);
+            background: var(--pure-white);
+            cursor: pointer;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .comment-form button:hover {
+            background: var(--charcoal);
+            color: var(--pure-white);
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.6);
+            align-items: center;
+            justify-content: center;
             z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
         }
 
         .modal-content {
-            background: linear-gradient(45deg, #ff00ff, #00ffff);
-            margin: 10% auto;
-            padding: 40px;
-            border-radius: 30px;
-            width: 80%;
-            max-width: 400px;
+            background: var(--pure-white);
+            padding: 48px;
+            min-width: 320px;
             text-align: center;
-            animation: modalOpen 0.5s;
-        }
-
-        @keyframes modalOpen {
-            from { transform: scale(0.5) rotate(180deg); }
-            to { transform: scale(1) rotate(0deg); }
+            box-shadow: 0 10px 30px rgba(0,0,0,.2);
         }
 
         .close {
-            color: #fff;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
+            position: absolute;
+            top: 16px;
+            right: 24px;
+            font-size: 1.5rem;
             cursor: pointer;
+            color: var(--charcoal);
         }
 
-        .close:hover {
-            transform: rotate(90deg);
-            transition: transform 0.3s;
-        }
-
-        .edit-mode-btn {
-            background: #ffff00;
-            color: #000;
-            margin-left: 10px;
-        }
-
-        .edit-mode-btn.active {
-            background: #ff00ff;
-            color: #fff;
-        }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 2em; }
-            .posts-container { grid-template-columns: 1fr; }
-        }
+        .edit-mode-btn.active { background: var(--charcoal); color: var(--pure-white); }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1 contenteditable="true" id="siteTitle">我的Y2K多巴胺世界</h1>
-            <button class="login-btn" onclick="toggleLogin()">登录</button>
-        </header>
+    <header>
+        <h1 contenteditable="true" id="siteTitle">MAGAZINE</h1>
+        <nav>
+            <a href="#posts">Editorial</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
 
-        <div class="admin-panel" id="adminPanel" style="display: none;">
-            <h2 style="color: #fff; margin-bottom: 20px;">管理面板</h2>
-            <button onclick="toggleUpload()">上传新内容</button>
-            <button class="edit-mode-btn" onclick="toggleEditMode()">编辑模式</button>
-            
+    <button class="login-btn" onclick="toggleLogin()">Login</button>
+
+    <div class="container">
+        <div class="admin-panel" id="adminPanel">
+            <h2>Control Panel</h2>
+            <button onclick="toggleUpload()">New Post</button>
+            <button id="editModeBtn" onclick="toggleEditMode()">Edit Mode</button>
+
             <div class="upload-section" id="uploadSection">
                 <div class="form-group">
-                    <label>标题</label>
-                    <input type="text" id="postTitle" placeholder="输入标题">
+                    <label>Title</label>
+                    <input type="text" id="postTitle" placeholder="Enter title">
                 </div>
                 <div class="form-group">
-                    <label>内容</label>
-                    <textarea id="postContent" placeholder="输入内容"></textarea>
+                    <label>Content</label>
+                    <textarea id="postContent" placeholder="Enter content"></textarea>
                 </div>
                 <div class="form-group">
-                    <label>图片/视频</label>
+                    <label>Image / Video</label>
                     <input type="file" id="postFile" accept="image/*,video/*">
                 </div>
-                <button onclick="createPost()">发布</button>
+                <button onclick="createPost()">Publish</button>
             </div>
         </div>
 
         <div class="posts-container" id="postsContainer">
-            <!-- 示例帖子 -->
+            <!-- sample post -->
             <div class="post">
-                <div class="post-author">
-                    <img class="author-avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23ff00ff'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='white' font-size='40'%3E我%3C/text%3E%3C/svg%3E" alt="头像">
-                    <span style="color: #fff;">站长</span>
-                </div>
-                <h3 style="color: #ffff00; margin-bottom: 10px;">欢迎来到我的多巴胺世界！</h3>
-                <p style="color: #fff;">这是一个充满Y2K风格的个人网站，在这里分享我的日常和创意！</p>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect width='100%25' height='100%25' fill='%23f4f4f4'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23a0a0a0' font-size='32' font-family='serif'%3E400×500%3C/text%3E%3C/svg%3E" alt="placeholder">
+                <div class="post-author">Editorial</div>
+                <h3>Minimalism Re-defined</h3>
+                <p>Less, but better.</p>
                 <div class="comments-section">
                     <div class="comment">
-                        <div class="comment-author">
-                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%2300ffff'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='white' font-size='40'%3E访%3C/text%3E%3C/svg%3E" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
-                            <span style="color: #00ffff;">访客小明</span>
-                        </div>
-                        <p style="color: #fff; font-size: 0.9em;">太酷了！这个网站风格简直绝了！</p>
+                        <div class="comment-author">Reader</div>
+                        <p>Love the clean aesthetic.</p>
+                    </div>
+                    <div class="comment-form">
+                        <input type="text" placeholder="Name" id="commentName-0">
+                        <input type="text" placeholder="Comment" id="commentText-0">
+                        <button onclick="addComment(0)">Send</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 登录模态框 -->
+    <!-- Modal -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2 style="color: #fff; margin-bottom: 20px;">登录/注册</h2>
+            <h2 style="margin-bottom: 24px; font-family: 'Playfair Display', serif;">Login / Register</h2>
             <div class="form-group">
-                <input type="text" id="username" placeholder="用户名">
+                <input type="text" id="username" placeholder="Username">
             </div>
             <div class="form-group">
-                <input type="text" id="password" placeholder="密码" type="password">
+                <input type="password" id="password" placeholder="Password">
             </div>
-            <button onclick="login()">登录</button>
-            <button onclick="register()">注册</button>
+            <button onclick="login()">Login</button>
+            <button onclick="register()">Register</button>
         </div>
     </div>
 
@@ -314,21 +343,18 @@
         let isEditMode = false;
         let posts = [];
 
-        // 本地存储键名
-        const STORAGE_KEY = 'y2k_blog_data';
+        const STORAGE_KEY = 'magazine_data';
 
-        // 加载保存的数据
         function loadData() {
-            const savedData = localStorage.getItem(STORAGE_KEY);
-            if (savedData) {
-                const data = JSON.parse(savedData);
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const data = JSON.parse(saved);
                 posts = data.posts || [];
-                document.getElementById('siteTitle').textContent = data.title || '我的Y2K多巴胺世界';
+                document.getElementById('siteTitle').textContent = data.title || 'MAGAZINE';
                 renderPosts();
             }
         }
 
-        // 保存数据到本地存储
         function saveData() {
             const data = {
                 title: document.getElementById('siteTitle').textContent,
@@ -337,79 +363,53 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
         }
 
-        // 渲染所有帖子
         function renderPosts() {
             const container = document.getElementById('postsContainer');
             container.innerHTML = '';
-            
-            posts.forEach((post, index) => {
-                const postDiv = document.createElement('div');
-                postDiv.className = 'post';
-                postDiv.innerHTML = `
-                    <div class="post-author">
-                        <img class="author-avatar" src="${post.authorAvatar || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23ff00ff\'/%3E%3Ctext x=\'50\' y=\'55\' text-anchor=\'middle\' fill=\'white\' font-size=\'40\'%3E我%3C/text%3E%3C/svg%3E'}" alt="头像">
-                        <span style="color: #fff;">${post.author || '站长'}</span>
-                    </div>
-                    <h3 style="color: #ffff00; margin-bottom: 10px;" ${isEditMode ? 'contenteditable="true"' : ''} onblur="updatePost(${index}, 'title', this.textContent)">${post.title}</h3>
-                    <p style="color: #fff;" ${isEditMode ? 'contenteditable="true"' : ''} onblur="updatePost(${index}, 'content', this.textContent)">${post.content}</p>
-                    ${post.media ? `<${post.mediaType === 'video' ? 'video controls' : 'img'} src="${post.media}" style="width: 100%; border-radius: 10px; margin: 10px 0;">` : ''}
-                    ${isEditMode ? '<button onclick="deletePost(' + index + ')" style="background: #ff0000; margin-top: 10px;">删除</button>' : ''}
+
+            posts.forEach((post, idx) => {
+                const div = document.createElement('div');
+                div.className = 'post';
+                div.innerHTML = `
+                    ${post.media ? `<${post.mediaType === 'video' ? 'video controls' : 'img'} src="${post.media}" alt="image">` : ''}
+                    <div class="post-author">${post.author || 'Editorial'}</div>
+                    <h3 ${isEditMode ? 'contenteditable="true"' : ''} onblur="updatePost(${idx}, 'title', this.textContent)">${post.title}</h3>
+                    <p ${isEditMode ? 'contenteditable="true"' : ''} onblur="updatePost(${idx}, 'content', this.textContent)">${post.content}</p>
+                    ${isEditMode ? '<button onclick="deletePost(' + idx + ')" style="margin-top: 8px;">Delete</button>' : ''}
                     <div class="comments-section">
-                        <h4 style="color: #00ffff; margin-bottom: 10px;">评论</h4>
-                        ${renderComments(post.comments || [])}
+                        ${(post.comments || []).map(c => `
+                            <div class="comment">
+                                <div class="comment-author">${c.name}</div>
+                                <p>${c.text}</p>
+                            </div>
+                        `).join('')}
                         <div class="comment-form">
-                            <input type="text" placeholder="你的名字" id="commentName-${index}" style="margin-bottom: 5px;">
-                            <input type="text" placeholder="评论内容" id="commentText-${index}" style="margin-bottom: 5px;">
-                            <button onclick="addComment(${index})">发表评论</button>
+                            <input type="text" placeholder="Name" id="commentName-${idx}">
+                            <input type="text" placeholder="Comment" id="commentText-${idx}">
+                            <button onclick="addComment(${idx})">Send</button>
                         </div>
                     </div>
                 `;
-                container.appendChild(postDiv);
+                container.appendChild(div);
             });
         }
 
-        // 渲染评论
-        function renderComments(comments) {
-            return comments.map(comment => `
-                <div class="comment">
-                    <div class="comment-author">
-                        <img src="${comment.avatar || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%2300ffff\'/%3E%3Ctext x=\'50\' y=\'55\' text-anchor=\'middle\' fill=\'white\' font-size=\'40\'%3E访%3C/text%3E%3C/svg%3E'}" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
-                        <span style="color: #00ffff;">${comment.name}</span>
-                    </div>
-                    <p style="color: #fff; font-size: 0.9em;">${comment.text}</p>
-                </div>
-            `).join('');
-        }
-
-        // 创建新帖子
         function createPost() {
             const title = document.getElementById('postTitle').value;
             const content = document.getElementById('postContent').value;
-            const fileInput = document.getElementById('postFile');
-            
-            if (!title || !content) {
-                alert('请填写标题和内容！');
-                return;
-            }
+            const file = document.getElementById('postFile').files[0];
 
-            const post = {
-                title: title,
-                content: content,
-                author: '站长',
-                authorAvatar: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23ff00ff\'/%3E%3Ctext x=\'50\' y=\'55\' text-anchor=\'middle\' fill=\'white\' font-size=\'40\'%3E我%3C/text%3E%3C/svg%3E',
-                comments: []
-            };
+            if (!title || !content) return alert('Fill title & content');
 
-            // 处理文件上传
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
+            const post = { title, content, author: 'Editorial', comments: [] };
+
+            if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = e => {
                     post.media = e.target.result;
                     post.mediaType = file.type.startsWith('video') ? 'video' : 'image';
                     posts.unshift(post);
-                    renderPosts();
-                    saveData();
+                    renderPosts(); saveData();
                     document.getElementById('postTitle').value = '';
                     document.getElementById('postContent').value = '';
                     document.getElementById('postFile').value = '';
@@ -417,73 +417,45 @@
                 reader.readAsDataURL(file);
             } else {
                 posts.unshift(post);
-                renderPosts();
-                saveData();
-                document.getElementById('postTitle').value = '';
-                document.getElementById('postContent').value = '';
+                renderPosts(); saveData();
             }
         }
 
-        // 更新帖子
-        function updatePost(index, field, value) {
-            posts[index][field] = value;
+        function updatePost(idx, field, val) {
+            posts[idx][field] = val;
             saveData();
         }
 
-        // 删除帖子
-        function deletePost(index) {
-            if (confirm('确定要删除这个帖子吗？')) {
-                posts.splice(index, 1);
-                renderPosts();
-                saveData();
+        function deletePost(idx) {
+            if (confirm('Delete this post?')) {
+                posts.splice(idx, 1);
+                renderPosts(); saveData();
             }
         }
 
-        // 添加评论
-        function addComment(postIndex) {
-            const name = document.getElementById(`commentName-${postIndex}`).value;
-            const text = document.getElementById(`commentText-${postIndex}`).value;
-            
-            if (!name || !text) {
-                alert('请填写名字和评论内容！');
-                return;
-            }
-
-            const comment = {
-                name: name,
-                text: text,
-                avatar: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%2300ffff'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='white' font-size='40'%3E${name.charAt(0).toUpperCase()}%3C/text%3E%3C/svg%3E`
-            };
-
-            if (!posts[postIndex].comments) {
-                posts[postIndex].comments = [];
-            }
-            posts[postIndex].comments.push(comment);
-            renderPosts();
-            saveData();
-            
-            document.getElementById(`commentName-${postIndex}`).value = '';
-            document.getElementById(`commentText-${postIndex}`).value = '';
+        function addComment(postIdx) {
+            const name = document.getElementById(`commentName-${postIdx}`).value;
+            const text = document.getElementById(`commentText-${postIdx}`).value;
+            if (!name || !text) return alert('Fill name & comment');
+            if (!posts[postIdx].comments) posts[postIdx].comments = [];
+            posts[postIdx].comments.push({ name, text });
+            renderPosts(); saveData();
+            document.getElementById(`commentName-${postIdx}`).value = '';
+            document.getElementById(`commentText-${postIdx}`).value = '';
         }
 
-        // 切换上传面板
         function toggleUpload() {
-            const section = document.getElementById('uploadSection');
-            section.classList.toggle('active');
+            document.getElementById('uploadSection').classList.toggle('active');
         }
 
-        // 切换编辑模式
         function toggleEditMode() {
             isEditMode = !isEditMode;
-            const btn = event.target;
-            btn.classList.toggle('active');
-            btn.textContent = isEditMode ? '退出编辑' : '编辑模式';
+            document.getElementById('editModeBtn').classList.toggle('active');
             renderPosts();
         }
 
-        // 登录相关
         function toggleLogin() {
-            document.getElementById('loginModal').style.display = 'block';
+            document.getElementById('loginModal').style.display = 'flex';
         }
 
         function closeModal() {
@@ -491,63 +463,41 @@
         }
 
         function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            // 简单的本地验证
-            const users = JSON.parse(localStorage.getItem('y2k_users') || '{}');
-            if (users[username] === password) {
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            const users = JSON.parse(localStorage.getItem('magazine_users') || '{}');
+            if (users[u] === p) {
                 isLoggedIn = true;
                 document.getElementById('adminPanel').style.display = 'block';
                 closeModal();
-                alert('登录成功！');
             } else {
-                alert('用户名或密码错误！');
+                alert('Invalid credentials');
             }
         }
 
         function register() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            if (!username || !password) {
-                alert('请填写用户名和密码！');
-                return;
-            }
-            
-            const users = JSON.parse(localStorage.getItem('y2k_users') || '{}');
-            if (users[username]) {
-                alert('用户名已存在！');
-                return;
-            }
-            
-            users[username] = password;
-            localStorage.setItem('y2k_users', JSON.stringify(users));
-            alert('注册成功！请登录。');
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            if (!u || !p) return alert('Enter username & password');
+            const users = JSON.parse(localStorage.getItem('magazine_users') || '{}');
+            if (users[u]) return alert('User exists');
+            users[u] = p;
+            localStorage.setItem('magazine_users', JSON.stringify(users));
+            alert('Registered. Please log in.');
         }
 
-        // 保存网站标题变化
-        document.getElementById('siteTitle').addEventListener('blur', function() {
-            saveData();
-        });
+        document.getElementById('siteTitle').addEventListener('blur', saveData);
+        window.onclick = e => {
+            if (e.target.id === 'loginModal') closeModal();
+        };
 
-        // 页面加载时初始化
-        window.onload = function() {
+        window.onload = () => {
             loadData();
-            // 检查是否已登录（开发时可以设置为true来跳过登录）
-            if (localStorage.getItem('y2k_logged_in') === 'true') {
+            if (localStorage.getItem('magazine_logged_in') === 'true') {
                 isLoggedIn = true;
                 document.getElementById('adminPanel').style.display = 'block';
             }
         };
-
-        // 点击模态框外部关闭
-        window.onclick = function(event) {
-            const modal = document.getElementById('loginModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
     </script>
 </body>
 </html>
